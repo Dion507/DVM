@@ -1,0 +1,14 @@
+# Archivos generados por .NET
+bin/
+obj/
+
+# Archivos de configuración del editor
+.vs/
+.vscode/
+
+# Ejecutables comprimidos para GitHub Releases
+*.tar.gz
+*.zip
+
+# Archivos de depuración
+*.pdb
