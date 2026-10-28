@@ -17,13 +17,13 @@ public class Validar
 
             if (valido)
             {
-                Console.WriteLine($"---> Validacion {URL} correcta...");
+                Console.WriteLine($"[+++] Validacion {URL} correcta [+++]");
                 return true;
             }
 
-            throw new Exception("!!! URL INVALIDA !!!");
+            throw new Exception("[!!! URL INVALIDA !!!]");
         } else {
-            throw new Exception("!!! CAMPO VACIO !!!");
+            throw new Exception("[!!! CAMPO VACIO !!!]");
         }  
     }
     catch (Exception e)

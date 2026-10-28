@@ -10,7 +10,7 @@ public class Interfaz
     {
         bool flag = true;
         string ent = string.Empty;
-        IntVideos videos = new IntVideos();
+        Videos videos = new Videos();
 
         try //TRY CATCH
         {

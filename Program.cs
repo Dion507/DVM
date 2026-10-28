@@ -13,6 +13,12 @@ namespace DVM
 
             //Musica m = new Musica();
             //m.crearFolders();
+
+            //ExtractorMetadatos ex = new ExtractorMetadatos();
+            //await ex.ObtenerAcyncVideo();
+
+            //JSONMusica a = new JSONMusica();
+            //a.pruebas();
         }
     }   
 }
