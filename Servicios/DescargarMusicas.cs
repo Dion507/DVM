@@ -1,7 +1,10 @@
 ﻿namespace DVM;
+
+using System.Diagnostics.Contracts;
 using ManuHub.Ytdlp.NET;
 public class DescargarMusicas 
 {
+    public CentrarTexto centrarTexto = new CentrarTexto();
     public async Task Descargar(string URL){
         try
         {
@@ -30,7 +33,7 @@ public class DescargarMusicas
                 await ytdlp.DownloadAsync(URL);
 
                 Console.WriteLine();
-                Console.WriteLine("[OOO] DESCARGA COMPLETA (Haz click en cualquier tecla)");
+                centrarTexto.CentrarUnBloque("DESCARGA COMPLETA (Haz click en cualquier tecla)");
 
                 Console.ReadKey();
                 Console.Clear();

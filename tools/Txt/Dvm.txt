@@ -1,0 +1,7 @@
+Esta version por ahora funciona solamente para linux debido a que me da weba hacer un port para Windows y ademas no tengo Windows.
+
+COSAS QUE AGREGUE
+- Mejora insignificante a las interfaces de descarga de videos
+- Algunas mejoras en la organizacion de archivos, directorios y clases. Aun palta pulir esta parte.
+- Integracion de cffi para descargar videos de paginas con restriccion anti bots mediante TLS.
+- Ejecutble por consola para linux. Proximamente para Windows.

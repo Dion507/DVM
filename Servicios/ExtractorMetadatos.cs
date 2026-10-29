@@ -49,11 +49,6 @@ public class ExtractorMetadatos
             //Extraer calidades y formatos // SOLO MOSTRAR SI DATOS CARGARON, BORRAR DESPUES
             var calidades = ExtraerCalidadesVideo(metadatovideo);
             var formato = ExtraerFormatosVideo(metadatovideo);
-            // Contar calidades y formatos
-            System.Console.WriteLine("Calidades: "+calidades.Count); // contar calidades
-            System.Console.WriteLine("Formatos: "+formato.Count); // contar formatos
-
-            System.Console.ReadKey();
             return metadatovideo;
         }
         catch (Exception e)

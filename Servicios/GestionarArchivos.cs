@@ -14,7 +14,6 @@ public class GestionarDirectorios
                 System.Console.WriteLine("||| Creando directorio...");
                 Directory.CreateDirectory(musicasDescargados);
                 System.Console.WriteLine("[O] Directorio creado");
-                System.Console.WriteLine(Directory.Exists(musicasDescargados));
                 return musicasDescargados;
             } else {
                 System.Console.WriteLine($"[O] Directorio {musicasDescargados} ya existe");
@@ -36,14 +35,13 @@ public class GestionarDirectorios
         System.Console.WriteLine("||| Validando directorios necesarios");
         try {
             if(!Directory.Exists(musicasDescargados)){
-                System.Console.WriteLine($"!!! EL directorio {musicasDescargados} no existe !!!");
-                System.Console.WriteLine("||| Creando directorio...");
+                System.Console.WriteLine($"[!!!] EL directorio {musicasDescargados} no existe [!!!]");
+                System.Console.WriteLine("[|||] Creando directorio...");
                 Directory.CreateDirectory(musicasDescargados);
-                System.Console.WriteLine("[O] Directorio creado");
-                System.Console.WriteLine(Directory.Exists(musicasDescargados));
+                System.Console.WriteLine("[OOO] Directorio creado");
                 return musicasDescargados;
             } else {
-                System.Console.WriteLine($"[O] Directorio {musicasDescargados} ya existe");
+                System.Console.WriteLine($"[OOO] Directorio {musicasDescargados} ya existe");
                 return musicasDescargados;
             }
         } catch (IOException ex){

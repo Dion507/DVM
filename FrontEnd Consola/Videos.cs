@@ -8,10 +8,12 @@ namespace DVM;
 public class Videos
 {
     private string URL = string.Empty;
-
+    public CentrarTexto centrarTexto = new CentrarTexto();
+    public Diseños cursor = new Diseños();
     public async Task Main()
     {
-        CentrarTexto centrarTexto = new CentrarTexto();
+        
+        
         Validar validar = new Validar();
         DescargarVideos descargarVideos = new DescargarVideos();
         try
@@ -19,14 +21,16 @@ public class Videos
             /// POSIBLE //
             string[] bloque = {
                 "[---] DESCARGAR VIDEO [---]",
-                "[>>>Ingrese URL<<<]",
+                "YouTube, Twitter (X), Instagram, otros"
             };
 
             centrarTexto.CentrarVariosBloques(bloque);
             
             /// POSIBLE ///
-            System.Console.Write(">>>> ");
+            cursor.Divisora();
+            cursor.Cursor("INGRESE URL");
             URL = System.Console.ReadLine();
+            Console.Clear();
             var val = validar.url(URL);
             if (val)
             {
@@ -62,21 +66,20 @@ public class Videos
                 bool flag = true;
                 while (flag)
                 {
-                    string[] bloque = { "[---] DESCARGAR VIDEO [---]", $"[Titulo: {extra.Result.titulo} |  Duracion:{tiempo.ToString(@"mm\:ss")} | Canal: {extra.Result.canal} | URL: {extra.Result.url}]", "[???] Descargar [S/s][N/n]" };
+                    string[] bloque = { "[---] DESCARGAR VIDEO [---]", $"[Titulo: {extra.Result.titulo} |  Duracion:{tiempo.ToString(@"mm\:ss")} | Canal: {extra.Result.canal} | URL: {extra.Result.url}]" };
                     centrarTexto.CentrarVariosBloques(bloque);
-
+                    cursor.Divisora();
+                    cursor.Cursor("DESCARGAR [s/n]");
                     string op = System.Console.ReadLine();
                     Console.Clear();
-                    switch (op)
+                    switch (op.ToLower())
                     {
-                        case "S":
+                        case "s":
                             await FormatosYCalidades(URL, calidades, formatos);
 
                             flag = false;
                             break;
-
-                        case "N":
-                            System.Console.WriteLine("REGRESANDO");
+                        case "n":
                             flag = false;
                             break;
                         default:
@@ -113,16 +116,18 @@ public class Videos
         {
             // Mostrar calidades
             texto = string.Empty;  // Vaciar lista de calidades 
-            string[] bloque = { "[---] DESCARGAR VIDEO [---]", "[ SELECCIONE CALIDAD ]" };
+            string[] bloque = { "[---] DESCARGAR VIDEO [---]" };
             centrarTexto.CentrarVariosBloques(bloque);
             System.Console.WriteLine("\n");
             int i = 0;
             foreach (var x in Calidades)
             {
-                texto = $"[|{i}| {x}p ] - {texto}";
+                System.Console.WriteLine($"[|{i}| {x}p ]");
                 i++;
             }
-            centrarTexto.CentrarUnBloque(texto);
+            
+            cursor.Divisora();
+            cursor.Cursor("SELECCIONE CALIDAD");
             string op = System.Console.ReadLine();
             Console.Clear();
             if(int.TryParse(op,out int nigga)){
@@ -144,16 +149,17 @@ public class Videos
         flag = true;
         while(flag){ // Flag para seleccion de formato
             texto = string.Empty;  // Vaciar lista de formatos 
-            string[] bloque = {"[---] DESCARGAR VIDEO [---]", "[ SELECCIONE FORMATO ]" };
+            string[] bloque = {"[---] DESCARGAR VIDEO [---]" };
             centrarTexto.CentrarVariosBloques(bloque);
             System.Console.WriteLine("\n");
             int i = 0;
             foreach (var x in Formatos)
             {
-                texto = $"[|{i}| {x} ] - {texto}";
+                System.Console.WriteLine($"[|{i}| {x} ]");
                 i++;
             }
-            centrarTexto.CentrarUnBloque(texto);
+            cursor.Divisora();
+            cursor.Cursor("SELECCIONE FORMATO");
             string op = System.Console.ReadLine();
             Console.Clear();
             if(int.TryParse(op,out int nigga)){
