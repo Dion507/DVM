@@ -1,4 +1,7 @@
 ﻿using System.Threading.Tasks;
+using System.Text.Json;
+using ManuHub.Ytdlp.NET;
+using System.Globalization;
 
 namespace DVM
 {
@@ -8,6 +11,7 @@ namespace DVM
         {
             Interfaz HUD = new Interfaz();
             await HUD.Main();
+            
             /*IntVideos videos = new IntVideos();
             videos.prueba();*/
 
@@ -18,7 +22,10 @@ namespace DVM
             //await ex.ObtenerAcyncVideo();
 
             //JSONMusica a = new JSONMusica();
-            //a.pruebas();
+            //await a.ObtenerAcyncVideo("https://es.pornhub.com/view_video.php?viewkey=6ad09538f3934");
+
         }
-    }   
+
+        
+    }
 }

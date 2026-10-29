@@ -11,6 +11,7 @@ public class Videos
 
     public async Task Main()
     {
+        CentrarTexto centrarTexto = new CentrarTexto();
         Validar validar = new Validar();
         DescargarVideos descargarVideos = new DescargarVideos();
         try
@@ -20,13 +21,9 @@ public class Videos
                 "[---] DESCARGAR VIDEO [---]",
                 "[>>>Ingrese URL<<<]",
             };
-            foreach (string linea in bloque)
-            {
-                int espacio = Math.Max(0,
-                    (Console.WindowWidth - linea.Length) / 2);
 
-                Console.WriteLine(new string(' ', espacio) + linea);
-            }
+            centrarTexto.CentrarVariosBloques(bloque);
+            
             /// POSIBLE ///
             System.Console.Write(">>>> ");
             URL = System.Console.ReadLine();
@@ -35,8 +32,6 @@ public class Videos
             {
                 System.Console.WriteLine("[---] Iniciando procesos de descarga...");
                 await MostrarTodosMetadatos(URL);
-
-                //await descargarVideos.Descargar(URL);
             }
         }
         catch (Exception e)
@@ -47,12 +42,13 @@ public class Videos
 
     public async Task MostrarTodosMetadatos(string URL)
     {
+        // Areglar aqui para que se pueda evitar leer metadatos
         try
         {
             CentrarTexto centrarTexto = new CentrarTexto();
             ExtractorMetadatos extractorMetadatos = new ExtractorMetadatos();
             // Extraer metadatos
-            var extra = extractorMetadatos.ObtenerAcyncVideo(URL);
+            var extra = extractorMetadatos.ObtenerAcyncVideo(URL); // Obtener  metadatos
             await Task.WhenAll(extra);
             if (extra.IsCompletedSuccessfully)
             {
@@ -61,12 +57,12 @@ public class Videos
                 var formatos = extractorMetadatos.ExtraerFormatosVideo(extra.Result);
 
                 // Convertir minutos y segundos (ahora mismo tengo una perexa organizar esto asi que lo hare aqui mismo)
-                TimeSpan tiempo = TimeSpan.FromSeconds(extra.Result.duracion);
+                TimeSpan tiempo = TimeSpan.FromSeconds(extra.Result.duracion ?? 0);
                 // Mostrar toda las webadas
                 bool flag = true;
                 while (flag)
                 {
-                    string[] bloque = { "[---] DESCARGAR VIDEO [---]", $"[Titulo: {extra.Result.titulo} |  Duracion: {tiempo.ToString(@"mm\:ss")} | Canal: {extra.Result.canal} | URL: {extra.Result.url}]", "[???] Descargar [S/s][N/n]" };
+                    string[] bloque = { "[---] DESCARGAR VIDEO [---]", $"[Titulo: {extra.Result.titulo} |  Duracion:{tiempo.ToString(@"mm\:ss")} | Canal: {extra.Result.canal} | URL: {extra.Result.url}]", "[???] Descargar [S/s][N/n]" };
                     centrarTexto.CentrarVariosBloques(bloque);
 
                     string op = System.Console.ReadLine();
@@ -104,17 +100,19 @@ public class Videos
 
     public async Task FormatosYCalidades(string URL, List<int> Calidades, List<string> Formatos)
     {
-        int xCalidad = 0;
+        // contadores 
+        int xCalidad = 0; 
         int xFormato = 0;
-        DescargarVideos descargarVideos = new DescargarVideos();
-        string[] lete = { string.Empty, string.Empty };
-        CentrarTexto centrarTexto = new CentrarTexto();
-        bool flag = true;
+        string texto = string.Empty;  // Almacena opciones de formato y calidades
+        DescargarVideos descargarVideos = new DescargarVideos(); // Para descargar el video
+        string[] lete = { string.Empty, string.Empty }; // Arreglo para mostrar calidades y formatos
+        CentrarTexto centrarTexto = new CentrarTexto(); // Objeto encargado de mostrar texto centrado
+        bool flag = true; // Bandera de opciones 
 
         while (flag) // While para seleccion de calidades
         {
-            
-            string texto = string.Empty;
+            // Mostrar calidades
+            texto = string.Empty;  // Vaciar lista de calidades 
             string[] bloque = { "[---] DESCARGAR VIDEO [---]", "[ SELECCIONE CALIDAD ]" };
             centrarTexto.CentrarVariosBloques(bloque);
             System.Console.WriteLine("\n");
@@ -145,7 +143,7 @@ public class Videos
 
         flag = true;
         while(flag){ // Flag para seleccion de formato
-            string texto = string.Empty;
+            texto = string.Empty;  // Vaciar lista de formatos 
             string[] bloque = {"[---] DESCARGAR VIDEO [---]", "[ SELECCIONE FORMATO ]" };
             centrarTexto.CentrarVariosBloques(bloque);
             System.Console.WriteLine("\n");

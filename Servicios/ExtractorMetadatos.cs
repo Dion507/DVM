@@ -21,40 +21,38 @@ public class ExtractorMetadatos
             AppContext.BaseDirectory,
             "tools",
              "yt-dlp"
-            );
+            );  // NO BORRAR REUTILIZABLE
+
+            /*string ruta = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                ".local", "share", "dvm-yt", "bin", "yt-dlp"
+            ); // CODIGO DE PRUEBA */
 
             System.Console.WriteLine("[---] Extrayendo metadatos del video...");
 
             // 1. Capture Mode – Extract full metadata as JSON
             var ytdlp = new Ytdlp(ruta);
             var res = ytdlp.ExecuteRawAsync(
-                     "--print \"{\\\"titulo\\\": %(title)j, " +
-                      "\\\"duracion\\\": %(duration)j, " +
-                      "\\\"canal\\\": %(channel)j, " +
-                      "\\\"url\\\": %(webpage_url)j, " +
-                      "\\\"formatos\\\": %(formats.:.{ext})j, " +
-                       "\\\"calidades\\\": %(formats.:.{height})j}\" " +
-                      URL
+                $"--dump-single-json \"{URL}\""
             );
 
-            Task animar = Barra.AnimarCarga(res);
+            Task animar = Barra.AnimarCarga(res); // Animacion de carga
 
 
-            await Task.WhenAll(res, animar);
+            await Task.WhenAll(res, animar); // Esperar hasta que la tarea de extracion termine
             Console.Clear();
 
-            MetadatosVideo metadatovideo =
-    JsonSerializer.Deserialize<MetadatosVideo>(
-        res.Result.FullOutput,
-        new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true
-        }
-    ) ?? throw new Exception("No se pudieron obtener los metadatos.");
+            // Deserializacion de los metadatos
+            MetadatosVideo metadatovideo = JsonSerializer.Deserialize<MetadatosVideo>(res.Result.FullOutput,new JsonSerializerOptions{
+                PropertyNameCaseInsensitive = true
+            } ) ?? throw new Exception("[!!!] No se pudo extraer los metadatos");
+            //Extraer calidades y formatos // SOLO MOSTRAR SI DATOS CARGARON, BORRAR DESPUES
+            var calidades = ExtraerCalidadesVideo(metadatovideo);
+            var formato = ExtraerFormatosVideo(metadatovideo);
+            // Contar calidades y formatos
+            System.Console.WriteLine("Calidades: "+calidades.Count); // contar calidades
+            System.Console.WriteLine("Formatos: "+formato.Count); // contar formatos
 
-            Console.WriteLine($"Calidades: {metadatovideo?.calidades.Count}");
-            Console.WriteLine($"Formatos: {metadatovideo?.formatos.Count}");
-            Console.WriteLine(res.Result.FullOutput);
             System.Console.ReadKey();
             return metadatovideo;
         }
@@ -69,8 +67,7 @@ public class ExtractorMetadatos
     {
         try
         {
-            return metadatosVideo.calidades.Select(x => x.height).Distinct().OrderBy(x => x).ToList();
-
+            return metadatosVideo.formatos.Where(x => x.height.HasValue).Select(x => x.height!.Value).Distinct().OrderBy(x => x).ToList();
         }
         catch (Exception e)
         {

@@ -5,22 +5,24 @@ public class DescargarVideos
     public async Task Descargar(string URL,int calidad, string formato){
         try
         {
-            BarraDeProgreso BarraDeProgreso = new BarraDeProgreso();
-            GestionarDirectorios Directorio = new GestionarDirectorios();
+            BarraDeProgreso BarraDeProgreso = new BarraDeProgreso(); // Barra de progreso 
+            GestionarDirectorios Directorio = new GestionarDirectorios(); // Encargado de gestionar directorios
 
             string ruta = Path.Combine( // Instanciando direccion de la extension 
             AppContext.BaseDirectory,
             "tools",
              "yt-dlp"
-            );
+            ); // NO BORRAR (REUTILIZABLE)
+
+            /*string ruta = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                ".local", "share", "dvm-yt", "bin", "yt-dlp"
+            ); // CODIGO DE PRUEBA */
 
             // Validando directorios 
-            string desVid = Directorio.CrearDirectoriosVideos();
-            if(desVid != string.Empty){
-                var ytdlp = new Ytdlp(ruta, new MiLogger())
-    .WithMaxHeight(calidad)
-    .WithMergeOutputFormat(formato)
-    .WithOutputFolder(desVid);
+            string desVid = Directorio.CrearDirectoriosVideos(); // Validando directorios 
+            if(desVid != string.Empty){ // si todo es correcto, se extrae el video
+                var ytdlp = new Ytdlp(ruta, new MiLogger()).WithMaxHeight(calidad).WithMergeOutputFormat(formato).WithOutputFolder(desVid);
                 
                 ytdlp.ProgressDownload += (s, e) =>
                 {
